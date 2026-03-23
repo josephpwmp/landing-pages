@@ -1,43 +1,19 @@
 import type { LandingPage } from "@/types/landing";
-import mockCms from "@/data/landing-pages.json";
-import { parseLandingPage } from "@/lib/validateLandingPage";
-
-type MockCmsFile = { pages: unknown[] };
+import { loadLandingPagesFromCsv } from "@/lib/csvSource";
 
 /**
- * MOCK CMS — replace with Strapi (or another headless CMS) later.
+ * Landing data source: `test-source.csv` (project root or `data/test-source.csv`).
+ * Mapped in `lib/csvSource.ts` (Google Ads-style columns → LandingPage).
  *
- * Isolation (SSG):
- * - Each `/landing/[slug]` is emitted as its own static HTML; CDN serves files independently.
- * - JS is code-split per route; shared framework chunks exist, but page data and route chunks are separate.
- * - To avoid *centralized build failure*: validate each record (see parseLandingPage), never throw from
- *   getStaticProps for one slug — return `notFound` or skip invalid rows so 999 good pages still build.
+ * Isolation (SSG): see row-level validation in `validateLandingPage` — bad rows are skipped.
  *
- * Strapi integration sketch:
- * - Create a "Landing Page" collection type with fields: slug (UID), headline, subheadline,
- *   heroImage (Media, single), phone, phoneSecondary (optional), businessName, city,
- *   serviceWord, serviceWordLower, formAction (optional), cta (component: label + href).
- * - Use `fetch(`${process.env.STRAPI_URL}/api/landing-pages?filters[slug][$eq]=${slug}&populate=*`)`
- *   in getStaticProps (or use @strapi/strapi-sdk / graphql).
- * - Map Strapi’s `data.attributes` into our `LandingPage` shape (see types/landing.ts).
- * - For images: build absolute URLs with Strapi’s media URL prefix or use Strapi’s `formats`.
- * - For getStaticPaths: `fetch(`${STRAPI_URL}/api/landing-pages?fields[0]=slug`)` and map slugs.
+ * Optional: `NEXT_PUBLIC_DEFAULT_PHONE` when the sheet has no phone column.
  *
- * Keep this module as the single place that knows how landing data is loaded.
+ * Strapi later: replace `loadLandingPagesFromCsv()` with API fetch + same `LandingPage` mapping.
  */
 
 function getMockPages(): LandingPage[] {
-  const data = mockCms as MockCmsFile;
-  const out: LandingPage[] = [];
-  for (const row of data.pages) {
-    const parsed = parseLandingPage(row);
-    if (parsed) out.push(parsed);
-    else if (process.env.NODE_ENV === "development") {
-      // eslint-disable-next-line no-console
-      console.warn("[cms] skipped invalid landing page row", row);
-    }
-  }
-  return out;
+  return loadLandingPagesFromCsv();
 }
 
 /** All landing pages — useful for dashboards and getStaticPaths. */

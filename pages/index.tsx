@@ -15,7 +15,7 @@ export default function Home() {
         </p>
         <nav className="home-nav">
           <Link href="/dashboard">Dashboard (all slugs)</Link>
-          <Link href="/landing/halifax">Example: /landing/halifax</Link>
+          <Link href="/landing/orlando">Example: /landing/orlando</Link>
         </nav>
       </main>
     </>

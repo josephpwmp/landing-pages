@@ -9,7 +9,7 @@ type Props = {
 };
 
 /**
- * Bonus: lists every slug from the same mock CMS used by /landing/[slug].
+ * Lists every slug from `test-source.csv` (via lib/csvSource.ts).
  * Uses getStaticProps so the list is generated at build time (refresh after CMS changes).
  */
 export default function Dashboard({ pages }: Props) {
@@ -21,9 +21,8 @@ export default function Dashboard({ pages }: Props) {
       <main className="dashboard">
         <h1>Landing pages</h1>
         <p className="dashboard__lead">
-          Statically generated routes from mock CMS data (
-          <code>data/landing-pages.json</code>). Replace the loader in{" "}
-          <code>lib/cms.ts</code> when you connect Strapi.
+          Statically generated from{" "}
+          <code>test-source.csv</code> (see <code>lib/csvSource.ts</code> for column mapping).
         </p>
         <ul className="slug-list">
           {pages.map((p) => (
