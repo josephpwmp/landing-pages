@@ -6,9 +6,11 @@ import {
   getAllLandingSlugs,
   getLandingPageBySlug,
 } from "@/lib/cms";
+import { getServiceAreaCities } from "@/lib/csvSource";
 
 type PageProps = {
   page: LandingPage;
+  serviceAreaCities: string[];
 };
 
 /**
@@ -21,14 +23,17 @@ type PageProps = {
  * `LandingTemplate` code can affect every landing until fixed — only *data* and *per-route* output
  * are isolated by slug.
  */
-export default function LandingPageRoute({ page }: PageProps) {
+export default function LandingPageRoute({
+  page,
+  serviceAreaCities,
+}: PageProps) {
   return (
     <>
       <Head>
         <title>{page.headline}</title>
         <meta name="description" content={page.subheadline} />
       </Head>
-      <LandingTemplate page={page} />
+      <LandingTemplate page={page} serviceAreaCities={serviceAreaCities} />
     </>
   );
 }
@@ -58,7 +63,10 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     }
 
     return {
-      props: { page },
+      props: {
+        page,
+        serviceAreaCities: getServiceAreaCities(),
+      },
     };
   } catch (e) {
     // One slug’s CMS failure must not fail the entire `next build`

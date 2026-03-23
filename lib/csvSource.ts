@@ -66,7 +66,9 @@ function extractDkiSlug(finalUrl: string): string | null {
 }
 
 function defaultPhone(): string {
-  return process.env.NEXT_PUBLIC_DEFAULT_PHONE?.trim() || "407-555-0100";
+  return (
+    process.env.NEXT_PUBLIC_DEFAULT_PHONE?.trim() || "(407) 734-9076"
+  );
 }
 
 function heroImageForSlug(slug: string): string {
@@ -165,4 +167,15 @@ export function loadLandingPagesFromCsv(): LandingPage[] {
   }
 
   return out;
+}
+
+/** Unique city names from the CSV (for “service area” section), sorted A→Z. */
+export function getServiceAreaCities(): string[] {
+  const pages = loadLandingPagesFromCsv();
+  const names = new Set<string>();
+  for (const p of pages) {
+    const c = p.city?.trim();
+    if (c && c !== "Your Area") names.add(c);
+  }
+  return Array.from(names).sort((a, b) => a.localeCompare(b));
 }
