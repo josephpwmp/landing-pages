@@ -14,8 +14,12 @@ type PageProps = {
 /**
  * Dynamic route: /landing/[slug]
  *
- * getStaticPaths + getStaticProps pre-render one HTML file per slug from the mock CMS.
- * After switching to Strapi, keep the same pattern: paths from API, props from fetch by slug.
+ * Next.js SSG: each slug becomes its own static HTML file + route chunk; other slugs are unaffected
+ * if this page 404s or omits a path (see lib/cms.ts for validation / no central throw).
+ *
+ * Caveat: shared React/Next runtime chunks are still common across routes; a bug in *shared*
+ * `LandingTemplate` code can affect every landing until fixed — only *data* and *per-route* output
+ * are isolated by slug.
  */
 export default function LandingPageRoute({ page }: PageProps) {
   return (
@@ -46,13 +50,22 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     return { notFound: true };
   }
 
-  const page = await getLandingPageBySlug(slugStr);
+  try {
+    const page = await getLandingPageBySlug(slugStr);
 
-  if (!page) {
+    if (!page) {
+      return { notFound: true };
+    }
+
+    return {
+      props: { page },
+    };
+  } catch (e) {
+    // One slug’s CMS failure must not fail the entire `next build`
+    if (process.env.NODE_ENV === "development") {
+      // eslint-disable-next-line no-console
+      console.error(`[landing/${slugStr}] getStaticProps`, e);
+    }
     return { notFound: true };
   }
-
-  return {
-    props: { page },
-  };
 };
