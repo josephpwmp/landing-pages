@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Window Cleaning Services — Local template</title>
+  <meta name="description" content="Professional window cleaning and exterior services. Request a free estimate.">
+  <!-- Replace title/description per page when wiring to Strapi or your router. -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue-dark: #113a77;
+      --blue-mid: #2f82c9;
+      --gold: #f7cb0b;
+      --text: #232323;
+      --muted: #475569;
+      --surface: #ffffff;
+      --shadow: 0 3px 12px rgb(0 0 0 / 9%);
+      --radius: 12px;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Montserrat, system-ui, sans-serif;
+      color: var(--text);
+      background: #f1f5f9;
+      line-height: 1.5;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+
+    .wrap {
+      width: min(100% - 2rem, var(--max));
+      margin-inline: auto;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      background: linear-gradient(180deg, var(--blue-dark), var(--blue-mid));
+      color: #fff;
+      padding: 2.5rem 0 3rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.625rem);
+      font-weight: 700;
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+
+    .hero .sub {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 500;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    /* Dynamic tokens: swap text in your CMS / build step */
+    .dynamic { /* e.g. service + city */ }
+
+    /* --- Lead card --- */
+    .lead-section {
+      margin-top: -2rem;
+      padding-bottom: 3rem;
+    }
+
+    .lead-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.75rem 1.5rem 2rem;
+    }
+
+    .lead-card h2 {
+      text-align: center;
+      font-size: 1.25rem;
+      margin: 0 0 0.5rem;
+    }
+
+    .lead-card .hint {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin: 0 0 1.5rem;
+    }
+
+    .lead-card .hint a { color: var(--blue-mid); font-weight: 600; text-decoration: none; }
+    .lead-card .hint a:hover { text-decoration: underline; }
+
+    .form-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    label span { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.35rem; }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #ececec;
+      border-radius: 6px;
+      font: inherit;
+      box-shadow: inset 0 2px 3px #ddd;
+    }
+
+    textarea { min-height: 5rem; resize: vertical; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      font: inherit;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--blue-mid);
+      color: #fff;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary:hover { filter: brightness(1.05); }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--blue-dark);
+      border: 2px solid var(--blue-dark);
+    }
+
+    .trust-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .trust-row img { width: 28px; height: auto; }
+
+    /* --- Sections --- */
+    section { padding: 2.5rem 0; }
+    section h2 {
+      text-align: center;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      margin: 0 0 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.25rem;
+      text-align: center;
+    }
+
+    .service-item p {
+      margin: 0.5rem 0 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .reviews {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 720px) {
+      .reviews { grid-template-columns: 1fr 1fr; }
+    }
+
+    .review {
+      background: var(--surface);
+      padding: 1.25rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .review .name { font-family: Roboto, sans-serif; font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem; }
+    .review .stars { width: 120px; margin-bottom: 0.5rem; }
+    .review p { margin: 0; font-size: 1rem; color: var(--text); }
+
+    .benefits {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 720px) {
+      .benefits { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .benefit {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .benefit h3 { margin: 0 0 0.5rem; font-size: 1.125rem; }
+    .benefit img { margin: 0 auto; max-height: 120px; object-fit: contain; }
+
+    .split {
+      display: grid;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (min-width: 900px) {
+      .split { grid-template-columns: 1fr 1fr; }
+    }
+
+    .prose p { margin: 0 0 1rem; font-size: 1.05rem; font-weight: 500; color: #060606; }
+
+    .why-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 720px) {
+      .why-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .why-item h3 {
+      font-size: 1.25rem;
+      margin: 0 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .why-item p { margin: 0; font-size: 1rem; }
+
+    .gallery {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #fff;
+      background: var(--blue-dark);
+    }
+
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Sticky phone bar — optional */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 -4px 20px rgb(0 0 0 / 12%);
+    }
+
+    .sticky-cta .btn { flex: 1 1 auto; min-width: 140px; max-width: 220px; }
+    .sticky-cta .btn-primary { background: var(--blue-dark); }
+
+    body { padding-bottom: 5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- ========== CONFIG: edit or replace with CMS fields ========== -->
+  <!-- {{ headline }}, {{ city }}, {{ phone }}, {{ business_name }} -->
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <h1>Window <span class="dynamic">Cleaning</span> Services in <span class="dynamic">Halifax</span></h1>
+      <p class="sub">Get $25 Off When You Book Today<br>Mention You Saw Our Ad On Google For Discount</p>
+    </div>
+  </header>
+
+  <div class="lead-section">
+    <div class="wrap">
+      <div class="lead-card" id="estimate">
+        <h2>Get A Free &amp; Fast Estimate Below</h2>
+        <p class="hint">
+          Fill out the form below or call
+          <a href="tel:902-890-1752">902-890-1752</a>
+          for a same-day estimate. Book your service today!
+        </p>
+
+        <!-- Point action to your API, Zapier, or form handler. Hidden gclid optional for ads. -->
+        <form class="form-grid" action="#" method="post" autocomplete="on">
+          <input type="hidden" name="gclid" value="">
+          <div class="form-grid cols-2">
+            <div>
+              <label><span>Your name</span>
+                <input type="text" name="your_name" placeholder="Your Name" required>
+              </label>
+            </div>
+            <div>
+              <label><span>Email</span>
+                <input type="email" name="email" placeholder="Email" required>
+              </label>
+            </div>
+            <div>
+              <label><span>Phone</span>
+                <input type="tel" name="phone_number" placeholder="Phone Number" required>
+              </label>
+            </div>
+            <div>
+              <label><span>Address</span>
+                <input type="text" name="address" placeholder="Address" required>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label><span>Tell us about what service you need</span>
+              <textarea name="tell_us_about_what_service_you_need" required></textarea>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary"><strong>Submit</strong></button>
+        </form>
+
+        <div class="trust-row">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/e9gcby-40299076-0-lock_100j00q000000000000028.png" alt="" width="28" height="28">
+          <span>Your information is 100% secure</span>
+        </div>
+
+        <div style="margin-top:1.25rem;text-align:center;">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/b5835ed6-window_10ez0jz0ez0gu00001j01o.jpeg" alt="Clean windows" style="max-height:280px;margin-inline:auto;border-radius:8px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section aria-labelledby="services-heading">
+    <div class="wrap">
+      <h2 id="services-heading">Our Featured Services</h2>
+      <div class="services-grid">
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/28b51059-power-pressure-house-washing_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>House Washing</p>
+        </div>
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/d74e0451-driveway-cleaning_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>Driveway Cleaning</p>
+        </div>
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/0cd87be5-deck-cleaning_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>Deck Cleaning</p>
+        </div>
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/dbc63c3e-fence-cleaning_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>Fence Cleaning</p>
+        </div>
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/a24318db-roof-cleaning_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>Roof Cleaning</p>
+        </div>
+        <div class="service-item">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/c55a9a15-gutter-cleaning_1000000000000000000028.png" alt="" width="120" height="120" style="margin-inline:auto;">
+          <p>Gutter Cleaning</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#e8f0fa;">
+    <div class="wrap">
+      <h2>5-Star Customer Reviews</h2>
+      <div class="reviews">
+        <article class="review">
+          <img class="stars" src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/adb06479-stars.svg" alt="5 stars">
+          <p class="name">Mary Markie</p>
+          <p>They did a great job! We had the siding, windows and gutters done. Even though it’s a relatively new house you could still see the difference before and after! Definitely recommend Mitchell and his team! Thanks again!</p>
+        </article>
+        <article class="review">
+          <img class="stars" src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/adb06479-stars.svg" alt="5 stars">
+          <p class="name">Cheryl Young</p>
+          <p>The window washer was helpful and went beyond what was required of him. My windows look amazing they give me a clear view.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 style="color:#fff;background:linear-gradient(90deg,var(--blue-dark),var(--blue-mid));padding:1rem;border-radius:8px;">
+        Our Window <span class="dynamic">Cleaning</span> <span style="color:var(--gold);">Transformations</span>!
+      </h2>
+      <div class="gallery" style="margin-top:1.5rem;">
+        <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/b4a1ab23-window-cleaning-acs-21_108s08s08s08q00000101o.jpeg" alt="Window cleaning result">
+        <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/1a961aa6-window-cleaning-double-check-photo-6_108x08q08s08q00200001o.jpeg" alt="Window cleaning result">
+        <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/7ab2180e-b4b91197-window-cleaning-acs-14-10iq0iq0h80gu00q00w01o_108x08q08s08q00200001o.jpeg" alt="Window cleaning result">
+      </div>
+      <p style="text-align:center;margin-top:1.5rem;font-weight:600;font-size:1.25rem;">We Make Your Property Look New!</p>
+      <p style="text-align:center;">Contact 360 Mobile Wash for an estimate by calling <a href="tel:902-890-1752" style="color:var(--blue-mid);font-weight:600;">902-890-1752</a> or completing the form above.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Benefits of Window <span class="dynamic">Cleaning</span> Services</h2>
+      <div class="benefits">
+        <div class="benefit">
+          <h3>Extend Window Lifespan</h3>
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/48e3fd93-extend-window-lifespan_101v01v000000000000028.png" alt="">
+        </div>
+        <div class="benefit">
+          <h3>Protect Energy Efficiency</h3>
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/ea8ae655-protect-energy-efficiency_101v01v000000000000028.png" alt="">
+        </div>
+        <div class="benefit">
+          <h3>Saves Money</h3>
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/7c8c8ea4-piggy-bank-1_101v01v000000000000028.png" alt="">
+        </div>
+        <div class="benefit">
+          <h3>Enhances Aesthetics</h3>
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/3233a69d-increases-aethestics_101v01v000000000000028.png" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <h2>Local Window <span class="dynamic">Cleaning</span> Company in <span class="dynamic">Halifax</span>!</h2>
+        <div class="prose">
+          <p>Are you searching for efficient window <span class="dynamic">cleaning</span> services? We’ve got you covered! Here at <strong>360 Mobile Wash</strong>, it is our goal to help residential clients achieve a cleaner, more comfortable home.</p>
+          <p>Our team specializes in delivering streak-free, clear windows that transform homes and offices. Based locally, we’re proud to offer unmatched window <span class="dynamic">cleaning</span> services.</p>
+          <p>We provide <span class="dynamic">Halifax</span> and surrounding areas with excellent service year round. Remember to take advantage of our $25 OFF special by mentioning “Google Ad” when you call.</p>
+        </div>
+        <p style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <a class="btn btn-primary" href="#estimate">Request estimate</a>
+          <a class="btn btn-outline" href="tel:902-890-1752">Call us now</a>
+        </p>
+      </div>
+      <div>
+        <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/4de0f305-exterior-window-cleaning-our-main-services_10ap0e900000000000001o.jpeg" alt="Exterior window cleaning">
+        <div style="display:flex;gap:1rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/55ba94e5-gbp_1000000000000000000028.png" alt="Google" width="80">
+          <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/f0e29b85-licensed-and-insured_103q03b000000000000028.png" alt="Licensed and insured" width="120">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#fff;">
+    <div class="wrap">
+      <h2>Why Choose 360 Mobile Wash?</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <h3>
+            <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/e564aadd-arrow.svg" alt="" width="24" height="24">
+            Fast &amp; Affordable <span class="dynamic">Cleaning</span>
+          </h3>
+          <p>Our window <span class="dynamic">cleaning</span> services are swift and competitively priced.</p>
+        </div>
+        <div class="why-item">
+          <h3>
+            <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/e564aadd-arrow.svg" alt="" width="24" height="24">
+            Same Day Estimates
+          </h3>
+          <p>Quick, transparent pricing over the phone.</p>
+        </div>
+        <div class="why-item">
+          <h3>
+            <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/e564aadd-arrow.svg" alt="" width="24" height="24">
+            Fully Licensed &amp; Insured
+          </h3>
+          <p>Professional standards and protection for your property.</p>
+        </div>
+      </div>
+      <div style="margin-top:2rem;text-align:center;">
+        <img src="https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/aa06ee92-upper-tantallon-_10nv0hw0c40c405l01u01o.jpg" alt="Property photo" style="max-height:360px;margin-inline:auto;border-radius:8px;">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>360 Mobile Wash | <a href="tel:902-609-5505">902-609-5505</a> · <a href="tel:902-890-1752">902-890-1752</a></p>
+    <p style="margin:0.5rem 0 0;font-size:0.85rem;opacity:0.9;">Template distilled from original export — swap copy, images, and form endpoint for production.</p>
+  </footer>
+
+  <div class="sticky-cta" role="navigation" aria-label="Quick contact">
+    <a class="btn btn-primary" href="tel:902-890-1752">Call 902-890-1752</a>
+    <a class="btn btn-outline" href="#estimate">Request estimate</a>
+  </div>
+
+  <!-- Optional: pass gclid into hidden field (Google Ads) -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var gclid = params.get('gclid');
+      var field = document.querySelector('input[name="gclid"]');
+      if (gclid && field) field.value = gclid;
+    })();
+  </script>
+</body>
+</html>

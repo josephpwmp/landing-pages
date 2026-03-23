@@ -1,0 +1,53 @@
+{
+  "pages": [
+    {
+      "slug": "halifax",
+      "headline": "Window Cleaning Services in Halifax",
+      "subheadline": "Get $25 Off When You Book Today\nMention You Saw Our Ad On Google For Discount",
+      "heroImage": "https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/b5835ed6-window_10ez0jz0ez0gu00001j01o.jpeg",
+      "phone": "902-890-1752",
+      "phoneSecondary": "902-609-5505",
+      "businessName": "360 Mobile Wash",
+      "city": "Halifax",
+      "serviceWord": "Cleaning",
+      "serviceWordLower": "cleaning",
+      "formAction": "#",
+      "cta": {
+        "label": "Request estimate",
+        "href": "#estimate"
+      }
+    },
+    {
+      "slug": "dartmouth",
+      "headline": "Window Cleaning Services in Dartmouth",
+      "subheadline": "Get $25 Off When You Book Today\nMention You Saw Our Ad On Google For Discount",
+      "heroImage": "https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/4de0f305-exterior-window-cleaning-our-main-services_10ap0e900000000000001o.jpeg",
+      "phone": "902-890-1752",
+      "businessName": "360 Mobile Wash",
+      "city": "Dartmouth",
+      "serviceWord": "Cleaning",
+      "serviceWordLower": "cleaning",
+      "formAction": "#",
+      "cta": {
+        "label": "Request estimate",
+        "href": "#estimate"
+      }
+    },
+    {
+      "slug": "book-online",
+      "headline": "Exterior Cleaning — Book Online",
+      "subheadline": "Same-day estimates. Licensed & insured.",
+      "heroImage": "https://picsum.photos/seed/wash/800/450",
+      "phone": "902-890-1752",
+      "businessName": "360 Mobile Wash",
+      "city": "Halifax",
+      "serviceWord": "Cleaning",
+      "serviceWordLower": "cleaning",
+      "formAction": "#",
+      "cta": {
+        "label": "Get early access",
+        "href": "https://example.com/book"
+      }
+    }
+  ]
+}

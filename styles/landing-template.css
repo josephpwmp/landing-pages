@@ -1,0 +1,414 @@
+/* Fonts loaded in pages/_document.tsx (reliable in Next.js; avoids @import FOUC). */
+/* Full-page landing layout (from landing.html). Scoped to avoid clashing with dashboard/home. */
+.landing-template {
+  --blue-dark: #113a77;
+  --blue-mid: #2f82c9;
+  --gold: #f7cb0b;
+  --text: #232323;
+  --surface: #ffffff;
+  --shadow: 0 3px 12px rgb(0 0 0 / 9%);
+  --radius: 12px;
+  --max: 1100px;
+
+  font-family: Montserrat, system-ui, sans-serif;
+  color: var(--text);
+  background: #f1f5f9;
+  line-height: 1.5;
+  padding-bottom: 5rem;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.landing-template img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.landing-template a {
+  color: inherit;
+}
+
+.landing-template .wrap {
+  width: min(100% - 2rem, var(--max));
+  margin-inline: auto;
+}
+
+.landing-template .hero {
+  background: linear-gradient(180deg, var(--blue-dark), var(--blue-mid));
+  color: #fff;
+  padding: 2.5rem 0 3rem;
+  text-align: center;
+}
+
+.landing-template .hero h1 {
+  font-size: clamp(1.75rem, 4vw, 2.625rem);
+  font-weight: 700;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.landing-template .hero .sub {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 500;
+  color: var(--gold);
+  margin: 0;
+  white-space: pre-line;
+}
+
+.landing-template .lead-section {
+  margin-top: -2rem;
+  padding-bottom: 3rem;
+}
+
+.landing-template .lead-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.75rem 1.5rem 2rem;
+}
+
+.landing-template .lead-card h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+}
+
+.landing-template .lead-card .hint {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 1.5rem;
+}
+
+.landing-template .lead-card .hint a {
+  color: var(--blue-mid);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing-template .lead-card .hint a:hover {
+  text-decoration: underline;
+}
+
+.landing-template .form-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .landing-template .form-grid.cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.landing-template label span {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.landing-template input,
+.landing-template textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  font: inherit;
+  box-shadow: inset 0 2px 3px #ddd;
+}
+
+.landing-template textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.landing-template .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font: inherit;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.landing-template .btn-primary {
+  background: var(--blue-mid);
+  color: #fff;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.landing-template .btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.landing-template .btn-outline {
+  background: #fff;
+  color: var(--blue-dark);
+  border: 2px solid var(--blue-dark);
+}
+
+.landing-template .trust-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.landing-template .trust-row img {
+  width: 28px;
+  height: auto;
+}
+
+.landing-template section {
+  padding: 2.5rem 0;
+}
+
+.landing-template section h2 {
+  text-align: center;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin: 0 0 2rem;
+}
+
+.landing-template .services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.landing-template .service-item p {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.landing-template .reviews {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .landing-template .reviews {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.landing-template .review {
+  background: var(--surface);
+  padding: 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.landing-template .review .name {
+  font-family: Roboto, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.landing-template .review .stars {
+  width: 120px;
+  margin-bottom: 0.5rem;
+}
+
+.landing-template .review p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.landing-template .benefits {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .landing-template .benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.landing-template .benefit {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.landing-template .benefit h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.landing-template .benefit img {
+  margin: 0 auto;
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.landing-template .split {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .landing-template .split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.landing-template .prose p {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #060606;
+}
+
+.landing-template .why-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 720px) {
+  .landing-template .why-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing-template .why-item h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.landing-template .why-item p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.landing-template .gallery {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.landing-template .lp-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  color: #fff;
+  background: var(--blue-dark);
+}
+
+.landing-template .lp-footer a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.landing-template .lp-footer a:hover {
+  text-decoration: underline;
+}
+
+.landing-template .sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 -4px 20px rgb(0 0 0 / 12%);
+}
+
+.landing-template .sticky-cta .btn {
+  flex: 1 1 auto;
+  min-width: 140px;
+  max-width: 220px;
+  width: auto;
+  margin-top: 0;
+}
+
+.landing-template .sticky-cta .btn-primary {
+  background: var(--blue-dark);
+}
+
+.landing-template .lp-footer__dash {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  opacity: 0.95;
+}
+
+.landing-template .lp-footer__dash a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.landing-template .hero-card-title {
+  color: #fff;
+  background: linear-gradient(90deg, var(--blue-dark), var(--blue-mid));
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.landing-template .lead-card__hero-img {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.landing-template .lead-card__hero-img img {
+  max-height: 280px;
+  margin-inline: auto;
+  border-radius: 8px;
+}
+
+.landing-template .cta-row {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.landing-template .cta-row .btn-primary {
+  width: auto;
+  margin-top: 0;
+}
+
+.landing-template .badge-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.landing-template .why-photo {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.landing-template .why-photo img {
+  max-height: 360px;
+  margin-inline: auto;
+  border-radius: 8px;
+}
