@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import "@/styles/globals.css";
 import "@/styles/landing-template.css";
+import "@/styles/generator.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

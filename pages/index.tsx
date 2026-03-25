@@ -15,6 +15,7 @@ export default function Home() {
         </p>
         <nav className="home-nav">
           <Link href="/dashboard">Dashboard (all slugs)</Link>
+          <Link href="/landing-generator">Landing Page Generator</Link>
           <Link href="/landing/orlando">Example: /landing/orlando</Link>
         </nav>
       </main>

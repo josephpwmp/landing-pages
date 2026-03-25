@@ -6,7 +6,7 @@ import {
   getAllLandingSlugs,
   getLandingPageBySlug,
 } from "@/lib/cms";
-import { getServiceAreaCities } from "@/lib/csvSource";
+import { getMergedServiceAreaCities } from "@/lib/mergeLandingSources";
 
 type PageProps = {
   page: LandingPage;
@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     return {
       props: {
         page,
-        serviceAreaCities: getServiceAreaCities(),
+        serviceAreaCities: getMergedServiceAreaCities(),
       },
     };
   } catch (e) {

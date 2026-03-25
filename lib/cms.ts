@@ -1,19 +1,13 @@
 import type { LandingPage } from "@/types/landing";
-import { loadLandingPagesFromCsv } from "@/lib/csvSource";
+import { loadAllLandingPagesMerged } from "@/lib/mergeLandingSources";
 
 /**
- * Landing data source: `test-source.csv` (project root or `data/test-source.csv`).
- * Mapped in `lib/csvSource.ts` (Google Ads-style columns → LandingPage).
- *
- * Isolation (SSG): see row-level validation in `validateLandingPage` — bad rows are skipped.
- *
- * Optional: `NEXT_PUBLIC_DEFAULT_PHONE` when the sheet has no phone column.
- *
- * Strapi later: replace `loadLandingPagesFromCsv()` with API fetch + same `LandingPage` mapping.
+ * Landing data: `data/landing-configs.csv` (`lib/landingConfigsCsv.ts`).
+ * Legacy Google Ads rows live in the same file (migrated from `test-source.csv`).
  */
 
 function getMockPages(): LandingPage[] {
-  return loadLandingPagesFromCsv();
+  return loadAllLandingPagesMerged();
 }
 
 /** All landing pages — useful for dashboards and getStaticPaths. */

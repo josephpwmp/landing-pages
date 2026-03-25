@@ -1,15 +1,29 @@
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { LandingPage } from "@/types/landing";
 import { GclidCapture } from "@/components/GclidCapture";
+import {
+  TEMPLATE_META,
+  type TemplateKey,
+} from "@/lib/landingConfigConstants";
+
+const WhatConvertsInjector = dynamic(
+  () =>
+    import("@/components/WhatConvertsInjector").then(
+      (m) => m.WhatConvertsInjector
+    ),
+  { ssr: false }
+);
 
 type Props = {
   page: LandingPage;
-  /** All cities from CSV — “service area” section */
+  /** All cities from merged CSVs — “service area” section */
   serviceAreaCities: string[];
 };
 
-/** Static imagery (replace with CMS media later). */
+/** Static imagery when generator did not supply uploads. */
 const IMG = {
   stars: "https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/adb06479-stars.svg",
   gal1: "https://d9hhrg4mnvzow.cloudfront.net/lp.getwindowcleaningtoday.com/360-mobile-wash/city/b4a1ab23-window-cleaning-acs-21_108s08s08s08q00000101o.jpeg",
@@ -62,27 +76,80 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
     businessName,
     city,
     serviceWord,
-    serviceWordLower,
     formAction,
+    countiesState,
+    discountAmount,
+    whatconvertsScript,
+    images,
+    colors,
+    review1,
+    review2,
   } = page;
 
+  const tplKey = (page.templateKey as TemplateKey) || "window_cleaning";
+  const meta = TEMPLATE_META[tplKey] ?? TEMPLATE_META.window_cleaning;
+  const localLabel = meta.localLeadIn;
+
   const phoneLink = telHref(phone);
+  const discount = discountAmount?.trim() || "25";
+
+  const section2Img = images?.section2 || IMG.exterior;
+  const whyImg = images?.whyChoose || IMG.property;
+  const gallerySrcs =
+    images?.beforeAfter && images.beforeAfter.length > 0
+      ? images.beforeAfter
+      : [IMG.gal1, IMG.gal2, IMG.gal3];
+
+  const r1 = review1 ?? {
+    name: "Richard Morris",
+    text: `Outstanding crew—on time, professional, and our property has never looked better. Highly recommend ${businessName}.`,
+  };
+  const r2 = review2 ?? {
+    name: "Clay Brashear",
+    text: `Fair pricing and great communication from quote to finish. Will use them again.`,
+  };
+
+  const serviceSub =
+    countiesState?.trim() || "We Service All of Central Florida";
+
+  const cssVars: CSSProperties & Record<string, string> = {};
+  if (colors?.sectionDark?.trim()) {
+    const d = colors.sectionDark.trim();
+    cssVars["--blue-dark"] = d;
+    cssVars["--blue-deep"] = d;
+  }
+  if (colors?.ctaRed?.trim()) {
+    cssVars["--cta-red"] = colors.ctaRed.trim();
+  }
+  if (colors?.ctaGreen?.trim()) {
+    cssVars["--cta-green"] = colors.ctaGreen.trim();
+  }
 
   return (
-    <div className="landing-template">
+    <div className="landing-template" style={cssVars}>
       <GclidCapture />
+      {whatconvertsScript?.trim() ? (
+        <WhatConvertsInjector html={whatconvertsScript} />
+      ) : null}
 
       <div className="landing-topbar">
         <div className="wrap landing-topbar__inner">
           <div className="landing-brand">
-            <span className="landing-brand__icon" aria-hidden>
-              🌴
-            </span>
-            <div>
-              <div className="landing-brand__title">TROPICAL</div>
-              <div className="landing-brand__sub">
-                Window Cleaning &amp; Pressure Washing
-              </div>
+            {images?.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={images.logo}
+                alt=""
+                className="landing-brand__img"
+              />
+            ) : (
+              <span className="landing-brand__icon" aria-hidden>
+                🌴
+              </span>
+            )}
+            <div className="landing-brand__text">
+              <div className="landing-brand__title">{businessName}</div>
+              <div className="landing-brand__sub">{localLabel}</div>
             </div>
           </div>
           <div className="landing-topbar__phone">
@@ -112,6 +179,7 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
                 sizes="(max-width: 900px) 100vw, 50vw"
                 priority
                 className="hero-split__img"
+                unoptimized={heroImage.startsWith("/uploads/")}
               />
             </div>
           </div>
@@ -178,7 +246,7 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
                 </div>
                 <div>
                   <label>
-                    <span>Tell us how many windows you have!</span>
+                    <span>Tell us what you need!</span>
                     <textarea
                       name="tell_us_about_what_service_you_need"
                       required
@@ -218,19 +286,20 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
           <div className="split split--media-left">
             <div className="split__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={IMG.exterior} alt="Professional window cleaning" />
+              <img src={section2Img} alt={`${localLabel} services`} />
             </div>
             <div className="split__content">
-              <h2>Local Window Cleaning Company Near You!</h2>
+              <h2>Local {localLabel} Company Near You!</h2>
               <div className="prose">
                 <p>
-                  Looking for reliable window {serviceWordLower} near {city}?
-                  <strong> {businessName}</strong> delivers streak-free results
-                  and friendly service across Central Florida.
+                  Looking for reliable {localLabel.toLowerCase()} near {city}?
+                  <strong> {businessName}</strong> delivers professional results
+                  and friendly service
+                  {countiesState ? ` across ${countiesState}` : " in your area"}.
                 </p>
                 <p>
                   We treat every home like our own. Mention you saw our Google
-                  ad and get <strong>$25 off</strong> when you book.
+                  ad and get <strong>${discount} off</strong> when you book.
                 </p>
               </div>
               <CtaPair phone={phone} phoneLink={phoneLink} />
@@ -242,16 +311,18 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
       <section className="section section--dark">
         <div className="wrap">
           <h2 className="h2-banner">
-            Our Window {serviceWord}{" "}
+            Our {localLabel}{" "}
             <span className="h2-banner__accent">Transformations</span>!
           </h2>
           <div className="gallery">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMG.gal1} alt="Before and after window cleaning" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMG.gal2} alt="Before and after window cleaning" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={IMG.gal3} alt="Before and after window cleaning" />
+            {gallerySrcs.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={`${src}-${i}`}
+                src={src}
+                alt={`Before and after ${localLabel}`}
+              />
+            ))}
           </div>
           <div className="section--dark__cta">
             <CtaPair phone={phone} phoneLink={phoneLink} />
@@ -265,7 +336,7 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
           <div className="split split--media-left split--why">
             <div className="split__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={IMG.property} alt="Our service vehicle" />
+              <img src={whyImg} alt="Our team" />
             </div>
             <div className="split__content">
               <ul className="why-list">
@@ -314,7 +385,7 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
 
       <section className="section section--light">
         <div className="wrap">
-          <h2>Benefits of Window {serviceWord} Services</h2>
+          <h2>Benefits of {localLabel} Services</h2>
           <div className="benefits benefits--row">
             <div className="benefit">
               <h3>Extend Window Lifespan</h3>
@@ -345,8 +416,8 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
 
       <section className="section section--dark section--service">
         <div className="wrap">
-          <h2>Window Cleaning In Your Area!</h2>
-          <p className="section--service__sub">We Service All of Central Florida</p>
+          <h2>{localLabel} In Your Area!</h2>
+          <p className="section--service__sub">{serviceSub}</p>
           <ul className="service-area-grid">
             {serviceAreaCities.map((c) => (
               <li key={c}>
@@ -374,20 +445,14 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
             <article className="review">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className="stars" src={IMG.stars} alt="" />
-              <p className="name">Richard Morris</p>
-              <p>
-                Outstanding crew—on time, professional, and our windows have
-                never looked better. Highly recommend {businessName}.
-              </p>
+              <p className="name">{r1.name}</p>
+              <p>{r1.text}</p>
             </article>
             <article className="review">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className="stars" src={IMG.stars} alt="" />
-              <p className="name">Clay Brashear</p>
-              <p>
-                Fair pricing and great communication from quote to finish. Will
-                use them again for our storefront and home.
-              </p>
+              <p className="name">{r2.name}</p>
+              <p>{r2.text}</p>
             </article>
           </div>
           <p className="closing-line">We Make Your Property Look New!</p>
@@ -412,7 +477,7 @@ export function LandingTemplate({ page, serviceAreaCities }: Props) {
           · <a href={phoneLink}>{phone}</a>
         </p>
         <p className="lp-footer__fine">
-          Central Florida · Serving {city}
+          {countiesState?.trim() || "Central Florida"} · Serving {city}
           {serviceAreaCities.length ? " and nearby cities" : ""}
         </p>
         <p className="lp-footer__dash">

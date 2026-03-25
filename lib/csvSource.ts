@@ -24,7 +24,7 @@ const COL = {
 
 const MIN_COLS = 45;
 
-function resolveCsvPath(): string | null {
+export function resolveAdsCsvPath(): string | null {
   const cwd = process.cwd();
   const candidates = [
     path.join(cwd, "test-source.csv"),
@@ -65,7 +65,7 @@ function extractDkiSlug(finalUrl: string): string | null {
   }
 }
 
-function defaultPhone(): string {
+export function defaultPhoneForAdsExport(): string {
   return (
     process.env.NEXT_PUBLIC_DEFAULT_PHONE?.trim() || "(407) 734-9076"
   );
@@ -75,16 +75,25 @@ function heroImageForSlug(slug: string): string {
   return `https://picsum.photos/seed/${encodeURIComponent(slug)}/1200/700`;
 }
 
-/**
- * Maps one CSV row to a LandingPage-shaped object, then validates.
- */
-export function rowToLandingPage(row: string[]): LandingPage | null {
+/** Parsed row from a Google Ads export line (used for migration + landing page mapping). */
+export type AdsCsvRowParsed = {
+  slug: string;
+  cityDisplay: string;
+  headline: string;
+  subheadline: string;
+  businessName: string;
+  finalUrl: string;
+};
+
+export function parseAdsExportRow(row: string[]): AdsCsvRowParsed | null {
   if (row.length < MIN_COLS) return null;
 
   const cityRaw = (row[COL.CITIES] ?? "").trim();
   const cityDisplay = cityRaw ? titleCaseCity(cityRaw) : "";
 
-  let slug = cityRaw ? slugify(cityRaw) : extractDkiSlug(row[COL.FINAL_URL] ?? "") || "default";
+  let slug = cityRaw
+    ? slugify(cityRaw)
+    : extractDkiSlug(row[COL.FINAL_URL] ?? "") || "default";
   if (slug === "page") slug = "default";
 
   const h1 = (row[COL.H1] ?? "").trim();
@@ -96,30 +105,51 @@ export function rowToLandingPage(row: string[]): LandingPage | null {
   let headline: string;
   if (cityDisplay) {
     headline =
-      h11 && h11.length > 0 ? h11 : `${h1 || "Local Window Cleaning Services"} in ${cityDisplay}`;
+      h11 && h11.length > 0
+        ? h11
+        : `${h1 || "Local Window Cleaning Services"} in ${cityDisplay}`;
   } else {
     headline = h1 || h11 || "Local Window Cleaning Services";
   }
 
   const subParts = [h2, d1].filter((p) => p.length > 0);
-  const subheadline = subParts.join("\n\n") || h2 || d1 || "Book your free estimate today.";
+  const subheadline =
+    subParts.join("\n\n") || h2 || d1 || "Book your free estimate today.";
 
   const businessName =
     h15 && h15.length > 0 ? h15 : "Tropical Window Cleaning";
 
   const finalUrl = (row[COL.FINAL_URL] ?? "").trim() || "#";
 
-  const raw: Record<string, unknown> = {
+  return {
     slug,
+    cityDisplay,
     headline,
     subheadline,
-    heroImage: heroImageForSlug(slug),
-    phone: defaultPhone(),
     businessName,
-    city: cityDisplay || "Your Area",
+    finalUrl,
+  };
+}
+
+/**
+ * Maps one CSV row to a LandingPage-shaped object, then validates.
+ * @deprecated Prefer `data/landing-configs.csv` — kept for `migrate:csv` tooling.
+ */
+export function rowToLandingPage(row: string[]): LandingPage | null {
+  const p = parseAdsExportRow(row);
+  if (!p) return null;
+
+  const raw: Record<string, unknown> = {
+    slug: p.slug,
+    headline: p.headline,
+    subheadline: p.subheadline,
+    heroImage: heroImageForSlug(p.slug),
+    phone: defaultPhoneForAdsExport(),
+    businessName: p.businessName,
+    city: p.cityDisplay || "Your Area",
     serviceWord: "Cleaning",
     serviceWordLower: "cleaning",
-    formAction: finalUrl,
+    formAction: p.finalUrl,
     cta: { label: "Request estimate", href: "#estimate" },
   };
 
@@ -127,7 +157,7 @@ export function rowToLandingPage(row: string[]): LandingPage | null {
 }
 
 export function loadLandingPagesFromCsv(): LandingPage[] {
-  const csvPath = resolveCsvPath();
+  const csvPath = resolveAdsCsvPath();
   if (!csvPath) {
     if (process.env.NODE_ENV === "development") {
       // eslint-disable-next-line no-console
@@ -169,7 +199,7 @@ export function loadLandingPagesFromCsv(): LandingPage[] {
   return out;
 }
 
-/** Unique city names from the CSV (for “service area” section), sorted A→Z. */
+/** @deprecated Use `getMergedServiceAreaCities` from `mergeLandingSources` */
 export function getServiceAreaCities(): string[] {
   const pages = loadLandingPagesFromCsv();
   const names = new Set<string>();

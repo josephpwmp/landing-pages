@@ -59,29 +59,22 @@
 .landing-template .landing-brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-}
-
-.landing-template .landing-brand__icon {
-  font-size: 1.75rem;
-  line-height: 1;
-}
-
-.landing-template .landing-brand__title {
-  font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: 0.06em;
-  color: var(--blue-dark);
-  line-height: 1.1;
-}
-
-.landing-template .landing-brand__sub {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--blue-mid);
-  letter-spacing: 0.02em;
+  gap: 0.65rem;
   line-height: 1.2;
-  max-width: 14rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.landing-template .landing-brand__text {
+  line-height: 1.15;
+}
+
+.landing-template .landing-brand__img {
+  width: auto;
+  max-width: min(72vw, 280px);
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
 }
 
 .landing-template .landing-topbar__phone {

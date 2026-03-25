@@ -56,5 +56,75 @@ export function parseLandingPage(raw: unknown): LandingPage | null {
     page.formAction = raw.formAction;
   }
 
+  if (raw.source === "generator" || raw.source === "ads_export") {
+    page.source = raw.source;
+  }
+  if (typeof raw.templateKey === "string" && raw.templateKey.trim()) {
+    page.templateKey = raw.templateKey.trim();
+  }
+  if (typeof raw.countiesState === "string" && raw.countiesState.trim()) {
+    page.countiesState = raw.countiesState.trim();
+  }
+  if (Array.isArray(raw.serviceCitiesList)) {
+    const list = raw.serviceCitiesList.filter(
+      (x): x is string => typeof x === "string" && x.trim() !== ""
+    );
+    if (list.length) page.serviceCitiesList = list;
+  }
+  if (typeof raw.discountAmount === "string" && raw.discountAmount.trim()) {
+    page.discountAmount = raw.discountAmount.trim();
+  }
+  if (typeof raw.whatconvertsScript === "string" && raw.whatconvertsScript.trim()) {
+    page.whatconvertsScript = raw.whatconvertsScript.trim();
+  }
+  if (isRecord(raw.review1)) {
+    const n = raw.review1.name;
+    const t = raw.review1.text;
+    if (typeof n === "string" && typeof t === "string") {
+      page.review1 = { name: n, text: t };
+    }
+  }
+  if (isRecord(raw.review2)) {
+    const n = raw.review2.name;
+    const t = raw.review2.text;
+    if (typeof n === "string" && typeof t === "string") {
+      page.review2 = { name: n, text: t };
+    }
+  }
+  if (isRecord(raw.images)) {
+    const im = raw.images;
+    const beforeAfter = Array.isArray(im.beforeAfter)
+      ? im.beforeAfter.filter((x): x is string => typeof x === "string")
+      : undefined;
+    const logo = typeof im.logo === "string" && im.logo.trim() ? im.logo.trim() : undefined;
+    const section2 =
+      typeof im.section2 === "string" && im.section2.trim() ? im.section2.trim() : undefined;
+    const whyChoose =
+      typeof im.whyChoose === "string" && im.whyChoose.trim() ? im.whyChoose.trim() : undefined;
+    const ba = beforeAfter?.length ? beforeAfter : undefined;
+    if (logo || section2 || whyChoose || ba?.length) {
+      page.images = {
+        logo,
+        section2,
+        whyChoose,
+        beforeAfter: ba,
+      };
+    }
+  }
+  if (isRecord(raw.colors)) {
+    const c = raw.colors;
+    const sectionDark =
+      typeof c.sectionDark === "string" && c.sectionDark.trim()
+        ? c.sectionDark.trim()
+        : undefined;
+    const ctaRed =
+      typeof c.ctaRed === "string" && c.ctaRed.trim() ? c.ctaRed.trim() : undefined;
+    const ctaGreen =
+      typeof c.ctaGreen === "string" && c.ctaGreen.trim() ? c.ctaGreen.trim() : undefined;
+    if (sectionDark || ctaRed || ctaGreen) {
+      page.colors = { sectionDark, ctaRed, ctaGreen };
+    }
+  }
+
   return page;
 }

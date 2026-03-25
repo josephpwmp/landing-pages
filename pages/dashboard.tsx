@@ -9,8 +9,8 @@ type Props = {
 };
 
 /**
- * Lists every slug from `test-source.csv` (via lib/csvSource.ts).
- * Uses getStaticProps so the list is generated at build time (refresh after CMS changes).
+ * Lists every slug from `data/landing-configs.csv` (via lib/cms.ts).
+ * Uses getStaticProps so the list is generated at build time (refresh after CSV changes).
  */
 export default function Dashboard({ pages }: Props) {
   return (
@@ -21,8 +21,10 @@ export default function Dashboard({ pages }: Props) {
       <main className="dashboard">
         <h1>Landing pages</h1>
         <p className="dashboard__lead">
-          Statically generated from{" "}
-          <code>test-source.csv</code> (see <code>lib/csvSource.ts</code> for column mapping).
+          All routes load from <code>data/landing-configs.csv</code> (Landing Page
+          Generator + migrated Google Ads data). Re-run{" "}
+          <code>npm run migrate:csv</code> after updating <code>test-source.csv</code>.{" "}
+          <Link href="/landing-generator">Open Landing Page Generator</Link>.
         </p>
         <ul className="slug-list">
           {pages.map((p) => (

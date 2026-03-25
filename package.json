@@ -6,15 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:csv": "tsx scripts/migrate-test-source-to-landing-configs.ts"
   },
   "dependencies": {
     "csv-parse": "^6.2.1",
+    "formidable": "^3.5.4",
     "next": "^14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "tsx": "^4.19.3",
+    "@types/formidable": "^3.5.0",
     "@types/node": "^20.17.6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
